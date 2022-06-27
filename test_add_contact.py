@@ -20,9 +20,9 @@ class TestAddContact(unittest.TestCase):
         self.login(wd, username="admin", password="secret")
         self.open_contacts_page(wd)
         self.fill_contact_form(wd, Contact(firstname="Иван", middlename="Иванов", lastname="Иванович", nickname="Ivanov_Ivan", title="q", company="w", address="e", home="555-55-55",
-                               mobile="8-921-666-66-66", work="911", fax="666", email="1a@ya.ru", email2="2b@mail.ru", email3="3c@rambler.com",
-                               homepage="https://ru.wikipedia.org/wiki/", bday="1", bmonth="January", byear="1980", aday="1", amonth="January", ayear="1990",
-                               address2="qwerty", phone2="555", notes="qwerty1"))
+                                           mobile="8-921-666-66-66", work_number="911", fax="666", email="1a@ya.ru", email2="2b@mail.ru", email3="3c@rambler.com",
+                                           homepage="https://ru.wikipedia.org/wiki/", bday="1", bmonth="January", byear="1980", aday="1", amonth="January", ayear="1990",
+                                           address2="qwerty", phone2="555", notes="qwerty1"))
         self.return_to_home_page(wd)
         self.logout(wd)
 
@@ -32,9 +32,9 @@ class TestAddContact(unittest.TestCase):
         self.login(wd, username="admin", password="secret")
         self.open_contacts_page(wd)
         self.fill_contact_form(wd, Contact(firstname="", middlename="", lastname="", nickname="", title="", company="", address="", home="",
-                               mobile="", work="", fax="", email="", email2="", email3="",
-                               homepage="", bday="", bmonth="-", byear="", aday="", amonth="-", ayear="",
-                               address2="", phone2="", notes=""))
+                                           mobile="", work_number="", fax="", email="", email2="", email3="",
+                                           homepage="", bday="", bmonth="-", byear="", aday="", amonth="-", ayear="",
+                                           address2="", phone2="", notes=""))
         self.return_to_home_page(wd)
         self.logout(wd)
 
