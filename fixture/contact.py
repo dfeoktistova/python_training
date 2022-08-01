@@ -1,8 +1,5 @@
 from selenium.webdriver.support.select import Select
 
-from model import contact
-from model.contact import Contact
-
 
 class ContactHelper:
 
