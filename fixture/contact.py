@@ -1,5 +1,8 @@
 from selenium.webdriver.support.select import Select
 
+from model import contact
+from model.contact import Contact
+
 
 class ContactHelper:
 
@@ -77,6 +80,15 @@ class ContactHelper:
         wd.find_element_by_name("notes").clear()
         wd.find_element_by_name("notes").send_keys(contact.notes)
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
+
+    def edit_first_contact(self):
+        wd = self.app.wd
+        # select edit button
+        wd.find_element_by_xpath("//img[@alt='Edit']").click()
+
+    def confirm_edit_first_contact(self):
+        wd = self.app.wd
+        wd.find_element_by_name("update").click()
 
     def delete_first_contact(self):
         wd = self.app.wd
