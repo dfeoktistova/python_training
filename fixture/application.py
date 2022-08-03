@@ -7,6 +7,7 @@ from fixture.contact import ContactHelper
 
 
 class Application:
+
     def __init__(self):
         self.wd = webdriver.Chrome(executable_path="chromedriver")
         self.wd.implicitly_wait(30)
@@ -16,6 +17,13 @@ class Application:
         self.session = SessionHelper(self)
         self.group = GroupHelper(self)
         self.contact = ContactHelper(self)
+
+    def is_valid(self):
+        try:
+            self.wd.current_url
+            return True
+        except:
+            return False
 
     def return_to_home_page(self):
         wd = self.wd
