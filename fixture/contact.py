@@ -6,6 +6,12 @@ class ContactHelper:
     def __init__(self, app):
         self.app = app
 
+    def open_contact_page(self):
+        wd = self.app.wd
+        # проверка на то, что мы на нужной странице (2 условия, т.к у нас несколько страниц с одинаковым адресом)
+        if not (len(wd.find_elements_by_name("searchstring")) > 0 and len(wd.find_elements_by_name("to_group")) > 0):
+            wd.find_element_by_link_text("home").click()
+
     def create(self, contact):
         wd = self.app.wd
         self.open_contact_page()
@@ -78,10 +84,6 @@ class ContactHelper:
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
-
-    def open_contact_page(self):
-        wd = self.app.wd
-        wd.find_element_by_link_text("home").click()
 
     def open_add_contacts_page(self):
         wd = self.app.wd
