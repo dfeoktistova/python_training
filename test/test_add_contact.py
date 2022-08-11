@@ -2,6 +2,7 @@ from model.contact import Contact
 
 
 def test_add_contact(app):
+    old_contacts = app.contact.get_contact_list()
     app.contact.create(
         Contact(firstname="Иван", middlename="Иванов", lastname="Иванович", nickname="Ivanov_Ivan", title="q",
                 company="w", address="e", home="555-55-55",
@@ -10,11 +11,16 @@ def test_add_contact(app):
                 homepage="https://ru.wikipedia.org/wiki/", bday="1", bmonth="January", byear="1980", aday="1",
                 amonth="January", ayear="1990",
                 address2="qwerty", phone2="555", notes="qwerty1"))
+    new_contacts = app.contact.get_contact_list()
+    assert len(old_contacts) + 1 == len(new_contacts)
 
 
 def test_add_empty_contact(app):
+    old_contacts = app.contact.get_contact_list()
     app.contact.create(
         Contact(firstname="", middlename="", lastname="", nickname="", title="", company="", address="", home="",
                 mobile="", work_number="", fax="", email="", email2="", email3="",
                 homepage="", bday="", bmonth="-", byear="", aday="", amonth="-", ayear="",
                 address2="", phone2="", notes=""))
+    new_contacts = app.contact.get_contact_list()
+    assert len(old_contacts) + 1 == len(new_contacts)
