@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from selenium import webdriver
+from selenium.webdriver.support.select import Select
 from fixture.session import SessionHelper
 from fixture.group import GroupHelper
 from fixture.contact import ContactHelper
@@ -9,7 +10,7 @@ class Application:
 
     def __init__(self):
         self.wd = webdriver.Chrome(executable_path="chromedriver")
-        # self.wd.implicitly_wait(5)
+        self.wd.implicitly_wait(5)
         self.base_url = "https://www.google.com/"
         self.verificationErrors = []
         self.accept_next_alert = True
