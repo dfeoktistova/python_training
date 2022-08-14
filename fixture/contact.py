@@ -52,11 +52,14 @@ class ContactHelper:
             # wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
 
-    def modify_first_contact(self, new_contact_data):
+    def modify_first_contact(self):
+        self.modify_contact_by_index(0)
+
+    def modify_contact_by_index(self, index, new_contact_data):
         wd = self.app.wd
         self.open_contact_page()
-        self.select_first_contact()
-        # fill modification contact form
+        self.select_contact_by_index(index)
+        # open modification contact form
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
         self.fill_contact_form(new_contact_data)
         # submit modification
@@ -70,9 +73,12 @@ class ContactHelper:
         wd.find_element_by_xpath("//img[@alt='Edit']").click()
 
     def delete_first_contact(self):
+        self.delete_contact_by_index(0)
+
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
         self.open_contact_page()
-        self.select_first_contact()
+        self.select_contact_by_index(index)
         # submit deletion
         wd.find_element_by_xpath("//input[@value='Delete']").click()
         wd.switch_to.alert.accept()
@@ -82,6 +88,10 @@ class ContactHelper:
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
+
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def open_contact_page(self):
         wd = self.app.wd
@@ -110,8 +120,8 @@ class ContactHelper:
             self.contact_cache = []
             for element in wd.find_elements_by_name("entry"):
                 td = element.find_elements_by_tag_name("td")
+                id = element.find_element_by_name("selected[]").get_attribute("value")
                 lastname = td[1].text
                 firstname = td[2].text
-                id = element.find_element_by_name("selected[]").get_attribute("value")
-                self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id))
+                self.contact_cache.append(Contact(id=id, lastname=lastname, firstname=firstname))
         return list(self.contact_cache)
