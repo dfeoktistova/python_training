@@ -36,11 +36,11 @@ class ContactHelper:
         self.change_field_value("email2", contact.email2)
         self.change_field_value("email3", contact.email3)
         self.change_field_value("homepage", contact.homepage)
-        self.change_field_value("bday", contact.bday)
-        self.change_field_value("bmonth", contact.bmonth)
+        self.change_field_1_value("bday", contact.bday)
+        self.change_field_1_value("bmonth", contact.bmonth)
         self.change_field_value("byear", contact.byear)
-        self.change_field_value("aday", contact.aday)
-        self.change_field_value("amonth", contact.amonth)
+        self.change_field_1_value("aday", contact.aday)
+        self.change_field_1_value("amonth", contact.amonth)
         self.change_field_value("ayear", contact.ayear)
         self.change_field_value("address2", contact.address2)
         self.change_field_value("phone2", contact.phone2)
@@ -50,8 +50,15 @@ class ContactHelper:
         wd = self.app.wd
         if text is not None:
             wd.find_element_by_name(field_name).click()
-            # wd.find_element_by_name(field_name).clear()
+            wd.find_element_by_name(field_name).clear()
             wd.find_element_by_name(field_name).send_keys(text)
+
+    def change_field_1_value(self, field_name, text):
+        wd = self.app.wd
+        if text is not None:
+            wd.find_element_by_name(field_name).click()
+            Select(wd.find_element_by_name(field_name)).select_by_visible_text(text)
+            wd.find_element_by_name(field_name).click()
 
     def modify_first_contact(self):
         self.modify_contact_by_index(0)
@@ -118,14 +125,14 @@ class ContactHelper:
             wd = self.app.wd
             self.open_contact_page()
             self.contact_cache = []
-            for row in wd.find_elements_by_name("entry"):
-                cells = row.find_elements_by_tag_name("td")
-                lastname = cells[1].text
-                firstname = cells[2].text
-                id = cells[0].find_element_by_tag_name("input").get_attribute("value")
+            for element in wd.find_elements_by_name("entry"):
+                td = element.find_elements_by_tag_name("td")
+                lastname = td[1].text
+                firstname = td[2].text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
                 # address = td[3].text
                 # all_email = td[4].text
-                all_phones = cells[5].text
+                all_phones = td[5].text
                 self.contact_cache.append(Contact(lastname=lastname, firstname=firstname, id=id,
                                                   all_phones_from_home_page=all_phones))
         return list(self.contact_cache)
