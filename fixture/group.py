@@ -60,10 +60,12 @@ class GroupHelper:
 
     def select_group_by_index(self, index):
         wd = self.app.wd
+        self.open_groups_page()
         wd.find_elements_by_name("selected[]")[index].click()
 
     def select_group_by_id(self, id):
         wd = self.app.wd
+        self.open_groups_page()
         wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
     def modify_first_group(self):
