@@ -112,6 +112,16 @@ class ContactHelper:
         self.open_contact_page()
         self.contact_cache = None
 
+    def delete_contact_from_group(self, contact, group):
+        wd = self.app.wd
+        wd.find_element_by_xpath("//div[3]/ul/li[1]/a").click()
+        self.app.group.select_group("group", group)
+        self.select_contact_by_id(contact)
+        wd.find_element_by_name("remove")
+        wd.find_element_by_name("remove").click()
+        wd.find_element_by_css_selector("div.msgbox")
+        wd.find_element_by_link_text("home").click()
+
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
@@ -161,6 +171,11 @@ class ContactHelper:
                                                   all_phones_from_home_page=all_phones, address=address,
                                                   all_mails_from_home_page=all_mails))
         return list(self.contact_cache)
+
+    def get_list_contact_in_group(self, group_id):
+        wd = self.app.wd
+        wd.find_element_by_name("group").click()
+        wd.find_element_by_xpath("//option[@value='%s']" % group_id).click()
 
 
     def get_contact_info_from_edit_page(self, index):

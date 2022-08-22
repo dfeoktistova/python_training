@@ -3,6 +3,7 @@ from datetime import datetime
 from model.group import Group
 from model.contact import Contact
 from pymysql.converters import decoders
+from model.contact_in_group import ContactInGroup
 
 
 class ORMFixture:
@@ -42,7 +43,6 @@ class ORMFixture:
     def convert_contacts_to_model(self, contacts):
         def convert(contact):
             return Contact(id=str(contact.id), firstname=contact.firstname, lastname=contact.lastname)
-
         return list(map(convert, contacts))
 
     @db_session
@@ -59,3 +59,11 @@ class ORMFixture:
         orm_group = list(select(g for g in ORMFixture.ORMGroup if g.id == group.id))[0]
         return self.convert_contacts_to_model(
             select(c for c in ORMFixture.ORMContact if c.deprecated is None and orm_group not in c.groups))
+
+    @db_session
+    def get_groups_with_contacts(self):
+        list_groups = []
+        group = self.db.select("group_id from address_in_groups")
+        for i in group:
+            list_groups.append(ContactInGroup(id=str(i)))
+        return list_groups
