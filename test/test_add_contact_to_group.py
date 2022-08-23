@@ -7,23 +7,23 @@ from model.group import Group
 database = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
 
 
-def test_delete_some_contact_from_group(app, db):
+def test_add_contact_to_group(app, db):
     app.group.open_groups_page()
     if len(db.get_group_list()) == 0:
-        app.group.create(Group(name='1', header='2'))
+        app.group.create(Group(name="name", header="header"))
     group_ = db.get_group_list()
     group = random.choice(group_)
     old_contacts = database.get_contacts_in_group(group)
-    if len(db.get_contact_list()) == 0:
+    contacts = [contact for contact in database.get_contacts_not_in_group(group)
+                if contact not in old_contacts]
+    if len(db.get_contact_list()) == 0 or len(contacts) == 0:
+        app.contact.open_contact_page()
         app.contact.create(Contact(firstname="Test", middlename="", lastname="", nickname="", title="", company="",
                                    address="", home="", mobile="", work_number="", fax="", email="", email2="",
                                    email3="", homepage="", bday="5", bmonth="July", byear="2022", aday="5",
                                    amonth="July", ayear="2022", address2="", phone2="", notes=""))
-
-        old_contacts = database.get_contacts_in_group(group)
-    contacts = [contact for contact in database.get_contacts_in_group(group)
-                if contact in old_contacts]
+        contacts = database.get_contacts_not_in_group(group)
     contact = random.choice(contacts)
-    app.contact.delete_contact_from_group(name=group.name, id=contact.id)
+    app.contact.add_contact_to_group(group_name=group.name, contact_id=contact.id)
     new_contacts = database.get_contacts_in_group(group)
-    assert contact not in new_contacts
+    assert contact in new_contacts
