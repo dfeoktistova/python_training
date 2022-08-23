@@ -1,6 +1,6 @@
-virtualenv ~= 20.16.3
-pytest ~= 7.1.2
-selenium == 4.2.0
+pytest
+pytest_bdd
+selenium
 jsonpickle
 pony
 pymysql
