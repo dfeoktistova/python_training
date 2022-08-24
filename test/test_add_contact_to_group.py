@@ -2,6 +2,7 @@ import random
 from fixture.orm import ORMFixture
 from model.contact import Contact
 from model.group import Group
+from model.contact_in_group import ContactInGroup
 
 
 database = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
@@ -26,4 +27,4 @@ def test_add_contact_to_group(app, db):
     contact = random.choice(contacts)
     app.contact.add_contact_to_group(group_name=group.name, contact_id=contact.id)
     new_contacts = database.get_contacts_in_group(group)
-    assert contact in new_contacts
+    assert sorted(old_contacts, key=ContactInGroup.id_max) == sorted(new_contacts, key=ContactInGroup.id_max)

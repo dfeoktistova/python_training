@@ -43,3 +43,17 @@ class DbFixture:
 
     def destroy(self):
         self.connection.close()
+
+
+    def get_contact_in_group_list(self):
+        contact = []
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute(
+                "select id, group_id from address_in_groups where deprecated is Null")
+            for row in cursor:
+                (contact_id, group_id) = row
+                contact_list.append(ContactInGroup(id=str(contact_id), group_id=str(group_id)))
+        finally:
+            cursor.close()
+        return contact
