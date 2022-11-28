@@ -128,7 +128,6 @@ class ContactHelper:
         wd.find_element_by_xpath("//div[3]/ul/li[1]/a").click()
         self.app.group.select_group("group", group)
         self.select_contact_by_id(contact)
-        wd.find_element_by_name("remove")
         wd.find_element_by_name("remove").click()
         wd.find_element_by_css_selector("div.msgbox")
         wd.find_element_by_link_text("home").click()
@@ -224,6 +223,7 @@ class ContactHelper:
         self.select_contact_by_id(contact_id)
         wd.find_element_by_xpath(f"//select[@name='to_group']/option[. = '{group_name}']").click()
         wd.find_element_by_name("add").click()
+
 
     def get_info_from_contacts_list(self, contacts, key):
         list = []

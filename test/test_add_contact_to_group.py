@@ -4,7 +4,6 @@ from model.contact import Contact
 from model.group import Group
 from model.contact_in_group import ContactInGroup
 
-
 database = ORMFixture(host="127.0.0.1", name="addressbook", user="root", password="")
 
 

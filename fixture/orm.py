@@ -23,7 +23,8 @@ class ORMFixture:
         firstname = Optional(str, column='firstname')
         lastname = Optional(str, column='lastname')
         deprecated = Optional(datetime, column='deprecated')
-        groups = Set(lambda: ORMFixture.ORMGroup, table="address_in_groups", column="group_id", reverse="contacts", lazy=True)
+        groups = Set(lambda: ORMFixture.ORMGroup, table="address_in_groups", column="group_id", reverse="contacts",
+                     lazy=True)
 
     def __init__(self, host, name, user, password):
         self.db.bind('mysql', host=host, database=name, user=user, password=password) # conv=decoders
@@ -32,8 +33,7 @@ class ORMFixture:
 
     def convert_groups_to_model(self, groups):
         def convert(group):
-            return Group(id=group.id, name=group.name, header=group.header)
-
+            return Group(id=str(group.id), name=group.name, header=group.header)
         return list(map(convert, groups))
 
     @db_session
