@@ -22,8 +22,13 @@ def test_add_contact_to_group(app, db):
                                    address="", home="", mobile="", work_number="", fax="", email="", email2="",
                                    email3="", homepage="", bday="5", bmonth="July", byear="2022", aday="5",
                                    amonth="July", ayear="2022", address2="", phone2="", notes=""))
-        contacts = database.get_contacts_not_in_group(group)
+
+    contacts = database.get_contacts_not_in_group(group)
     contact = random.choice(contacts)
+
+    # добавляем контакт в группу
     app.contact.add_contact_to_group(group_name=group.name, contact_id=contact.id)
+
     new_contacts = database.get_contacts_in_group(group)
+    old_contacts.append(contact)
     assert sorted(old_contacts, key=ContactInGroup.id_max) == sorted(new_contacts, key=ContactInGroup.id_max)

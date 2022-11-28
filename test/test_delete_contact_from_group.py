@@ -17,11 +17,19 @@ def test_delete_contact_from_group(app, db):
                                    address="", home="", mobile="", work_number="", fax="", email="", email2="",
                                    email3="", homepage="", bday="5", bmonth="July", byear="2022", aday="5",
                                    amonth="July", ayear="2022", address2="", phone2="", notes=""))
-    old_list_contact = database.get_groups_with_contacts()
-    group = random.choice(old_list_contact)
-    contact_in_group = database.get_contacts_in_group(group)
-    contact = random.choice(contact_in_group)
-    app.contact.delete_contact_from_group(contact.id, group)
+    old_group_list_with_contacts = database.get_groups_with_contacts()
+    group = random.choice(old_group_list_with_contacts)
+
+    old_list_contact_in_group = database.get_contacts_in_group(group)
+    contact = random.choice(old_list_contact_in_group)
+
+    # удаляем контакт из группы
+    app.contact.delete_contact_from_group(contact.id, group.id)
+
+    # получаем новый список контактов
     new_list_contact_in_group = database.get_contacts_in_group(group)
-    contact_in_group.remove(contact)
-    assert contact_in_group == new_list_contact_in_group
+
+    # удаляем из старого списка контактов элемент, равный заданному (contact)
+    old_list_contact_in_group.remove(contact)
+    assert sorted(old_list_contact_in_group, key=ContactInGroup.id_max) == sorted(new_list_contact_in_group,
+                                                                                  key=ContactInGroup.id_max)
